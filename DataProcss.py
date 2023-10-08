@@ -1,4 +1,3 @@
-# Importar bibliotecas
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pymongo import MongoClient
@@ -14,15 +13,15 @@ data = response.json()
 # Crear un DataFrame Spark a partir de los datos
 df = spark.createDataFrame(data)
 
-# Filtrar y transformar los datos (en este ejemplo, se filtran los primeros 10 posts)
+# Filtrar y transformar los datos 
 df_filtered = df.limit(10).select("userId", "id", "title", "body")
 
-# Conectar con MongoDB
+# Conexion con MongoDB
 client = MongoClient("mongodb://admin:password@localhost:27017/")
 db = client["db_pyspark_test"]
 collection = db["datos_prueba"]
 
-# Convertir el DataFrame Spark a un formato que MongoDB pueda entender
+# Conversion del DataFrame Spark a un formato MongoDB 
 posts = df_filtered.toJSON().map(lambda x: eval(x)).collect()
 
 # Insertar los datos en MongoDB
